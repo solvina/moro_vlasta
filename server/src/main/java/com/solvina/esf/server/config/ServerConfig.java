@@ -8,13 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -26,7 +26,6 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan(basePackages = "com.solvina.esf.server")
-@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.solvina.esf.server.dao")
 public class ServerConfig {
     private static Logger log = LogManager.getLogger(ServerConfig.class);
@@ -52,20 +51,12 @@ public class ServerConfig {
       }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
-    }
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
+       JpaTransactionManager transactionManager = new JpaTransactionManager();
+       transactionManager.setEntityManagerFactory(emf);
 
-    @Bean
-    public HibernateTransactionManager transactionManager() {
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory().getObject());
-        return txManager;
+       return transactionManager;
     }
-
 
     private DataSource dataSource() {
         final HikariDataSource ds = new HikariDataSource();
@@ -82,10 +73,10 @@ public class ServerConfig {
         final Properties properties = new Properties();
         
         properties.setProperty("hibernate.dialect","org.hibernate.dialect.PostgreSQLDialect");
-        properties.setProperty("hbm2ddl.auto","create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto","create");
         //just because I can
-        properties.setProperty("show_sql","true");
-        properties.setProperty("format_sql","true");
+        properties.setProperty("hibernate.show_sql","true");
+        properties.setProperty("hibernate.format_sql","true");
         return properties;
     }
 }

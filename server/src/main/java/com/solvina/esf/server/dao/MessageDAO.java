@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Time: 10:22 AM
  */
 public interface MessageDAO extends JpaRepository<Message,Long> {
-
-    Message save(Message message);
 }
