@@ -43,6 +43,7 @@ public class EsfClientImpl implements EsfClient {
     private MessageRequest createPing(){
         MessageRequest ret = new MessageRequest();
         ret.setText("Ping! I am alive!");
+        ret.setPing(true);
         return ret;
     }
 

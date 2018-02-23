@@ -55,4 +55,14 @@ public class Message {
     public void setReceived(LocalDateTime received) {
         this.received = received;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", created=" + created +
+                ", received=" + received +
+                '}';
+    }
 }

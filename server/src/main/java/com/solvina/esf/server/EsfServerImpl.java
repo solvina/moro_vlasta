@@ -2,9 +2,11 @@ package com.solvina.esf.server;
 
 import com.solvina.esf.data.MessageRequest;
 import com.solvina.esf.server.dao.MessageDAO;
+import com.solvina.esf.server.model.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import java.util.Optional;
  * Time: 11:20 AM
  */
 @Component
+@Qualifier("esfServer")
 public class EsfServerImpl implements EsfServer{
     private static Logger log = LogManager.getLogger(EsfServerImpl.class);
 
@@ -42,6 +45,9 @@ public class EsfServerImpl implements EsfServer{
     public void onMessage(MessageRequest messageRequest) {
      log.info("We have received a message!");
 
-     messageDAO.save(converter.toMessage(messageRequest));
+     Message toStore = converter.toMessage(messageRequest);
+     log.info("to store: {}",toStore);
+     Message ret = messageDAO.saveAndFlush(toStore);
+     log.info(ret);
     }
 }
