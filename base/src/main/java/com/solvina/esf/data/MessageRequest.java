@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  */
 public class MessageRequest {
 
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
     private String text;
 
     public LocalDateTime getCreated() {

@@ -20,7 +20,7 @@ public interface EsfClient {
      * Sends a message using netty to server
      * @param messageRequest
      */
-    void SendMessage(MessageRequest messageRequest);
+    void sendMessage(MessageRequest messageRequest);
 
     /**
      * Gets a collection of already send messages

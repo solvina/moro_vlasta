@@ -1,6 +1,7 @@
 package com.solvina.esf.server.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 /**
@@ -18,9 +19,9 @@ public class Message {
 
     private String message;
 
-//    private LocalDateTime created;
-//
-//    private LocalDateTime received = LocalDateTime.now();
+    private LocalDateTime created;
+
+    private LocalDateTime received = LocalDateTime.now();
 
 
     public Long getId() {
@@ -39,19 +40,19 @@ public class Message {
         this.message = message;
     }
 
-//    public LocalDateTime getCreated() {
-//        return created;
-//    }
-//
-//    public void setCreated(LocalDateTime created) {
-//        this.created = created;
-//    }
-//
-//    public LocalDateTime getReceived() {
-//        return received;
-//    }
-//
-//    public void setReceived(LocalDateTime received) {
-//        this.received = received;
-//    }
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getReceived() {
+        return received;
+    }
+
+    public void setReceived(LocalDateTime received) {
+        this.received = received;
+    }
 }

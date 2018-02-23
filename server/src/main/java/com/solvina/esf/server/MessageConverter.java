@@ -18,7 +18,7 @@ public class MessageConverter {
 
     public Message toMessage(MessageRequest request){
         Message ret = new Message();
-//        ret.setCreated(request.getCreated());
+        ret.setCreated(request.getCreated());
         ret.setMessage(request.getText());
 
         return ret;
