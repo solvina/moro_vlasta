@@ -1,8 +1,11 @@
-package com.solvina.esf.server.model;
+package com.solvina.esf.data;
+
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
 
 /**
  * User: Vlastimil
@@ -17,11 +20,13 @@ public class Message {
    	@GeneratedValue(strategy= GenerationType.IDENTITY)
    	private Long id;
 
+    @NotEmpty
+    @Size(min=2, max=3000)
     private String message;
 
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
-    private LocalDateTime received = LocalDateTime.now();
+    private LocalDateTime received;
 
 
     public Long getId() {

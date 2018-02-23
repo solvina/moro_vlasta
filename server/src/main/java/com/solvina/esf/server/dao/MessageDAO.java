@@ -1,6 +1,6 @@
 package com.solvina.esf.server.dao;
 
-import com.solvina.esf.server.model.Message;
+import com.solvina.esf.data.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

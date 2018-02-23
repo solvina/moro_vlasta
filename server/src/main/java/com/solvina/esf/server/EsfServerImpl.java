@@ -2,7 +2,7 @@ package com.solvina.esf.server;
 
 import com.solvina.esf.data.MessageRequest;
 import com.solvina.esf.server.dao.MessageDAO;
-import com.solvina.esf.server.model.Message;
+import com.solvina.esf.data.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

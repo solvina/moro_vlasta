@@ -3,7 +3,7 @@ package com.solvina.esf.server;
 import com.solvina.esf.data.MessageRequest;
 import com.solvina.esf.server.config.ServerConfig;
 import com.solvina.esf.server.dao.MessageDAO;
-import com.solvina.esf.server.model.Message;
+import com.solvina.esf.data.Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

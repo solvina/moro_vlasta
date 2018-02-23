@@ -3,6 +3,7 @@ package com.solvina.esf.client;
 import com.solvina.esf.data.MessageRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Date: 2/23/18
  * Time: 12:07 PM
  */
+@Component
 public class EsfClientImpl implements EsfClient {
     private static Logger log = LogManager.getLogger(EsfClientImpl.class);
 
