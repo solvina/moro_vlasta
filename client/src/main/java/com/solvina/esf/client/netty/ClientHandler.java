@@ -37,6 +37,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageResponse> 
     }
 
     private MessageRequest welcomeMessage() {
+
         MessageRequest msg = new MessageRequest();
         msg.setCreated(LocalDateTime.now());
         msg.setText(
