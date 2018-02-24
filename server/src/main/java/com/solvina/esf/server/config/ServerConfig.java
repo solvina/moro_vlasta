@@ -2,11 +2,12 @@ package com.solvina.esf.server.config;
 
 import com.solvina.esf.netty.MessageRequestDecoder;
 import com.solvina.esf.netty.MessageResponseEncoder;
-import com.solvina.esf.server.netty.MessageProtocolHandler;
+import com.solvina.esf.server.netty.ServerHandler;
 import com.zaxxer.hikari.HikariDataSource;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -32,7 +33,6 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 
 /**
@@ -41,32 +41,23 @@ import java.util.Set;
  * Time: 10:06 AM
  */
 @Configuration
-@ComponentScan(basePackages = "com.solvina.esf.server")
+@ComponentScan(basePackages = "com.solvina.esf")
 @EnableJpaRepositories(basePackages = "com.solvina.esf.server.dao")
 public class ServerConfig {
     private static Logger log = LogManager.getLogger(ServerConfig.class);
 
-    public static void main(String... a) {
+    public static void main(String... a) throws InterruptedException {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(ServerConfig.class);
         ctx.refresh();
-
-
-        while (true)
-        {
-            try
-            {
-                Thread.sleep(1000);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
+//        ctx.getBean(NettyServer.class).startMe();
     }
 
     @Value("${tcp.port:7878}")
     private int tcpPort;
+    @Value("${tcp.port:localhost}")
+    private String host;
+
 
 
     @Value("${boss.thread.count:10}")
@@ -88,48 +79,34 @@ public class ServerConfig {
     @Value("${db.password:vlasta}")
     private String password;
 
+    @Bean
+    public  ServerHandler serverHandler(){
+        return new ServerHandler();
+    }
+
     @Bean(name = "serverBootstrap")
-    public ServerBootstrap bootstrap() throws InterruptedException {
+            public ServerBootstrap serverBootstrap() {
+        // Configure the server.
+
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup(), workerGroup())
                 .channel(NioServerSocketChannel.class)
+                .option(ChannelOption.SO_BACKLOG, 128)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
-                .childHandler(channelInitializer());
-        Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
-        Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
-        for (@SuppressWarnings("rawtypes") ChannelOption option : keySet)
-        {
-            b.option(option, tcpChannelOptions.get(option));
-        }
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    public void initChannel(SocketChannel ch) throws Exception {
+                        ChannelPipeline p = ch.pipeline();
+                        p.addLast(new LoggingHandler(LogLevel.DEBUG));
+                        p.addLast(new MessageRequestDecoder(),
+                                new MessageResponseEncoder(),
+                                serverHandler());
+                    }
+                });
+
+        log.info("Server is created");
         return b;
-    }
-
-    @Bean
-    ChannelInitializer<SocketChannel> channelInitializer() {
-        return new ChannelInitializer<SocketChannel>() {
-            @Override
-            public void initChannel(SocketChannel ch)
-                    throws Exception {
-                ch.pipeline().addLast(messageRequestDecoder(),
-                        messageResponseEncoder(),
-                        messageProtocolHandler());
-            }
-        };
-    }
-
-    @Bean
-    MessageResponseEncoder messageResponseEncoder() {
-        return new MessageResponseEncoder();
-    }
-
-    @Bean
-    MessageRequestDecoder messageRequestDecoder() {
-        return new MessageRequestDecoder();
-    }
-
-    @Bean
-    MessageProtocolHandler messageProtocolHandler() {
-        return new MessageProtocolHandler();
     }
 
 
@@ -140,22 +117,12 @@ public class ServerConfig {
         options.put(ChannelOption.SO_BACKLOG, backlog);
         return options;
     }
-
-    @Bean(name = "bossGroup", destroyMethod = "shutdownGracefully")
-    public NioEventLoopGroup bossGroup() {
-        return new NioEventLoopGroup(bossCount);
-    }
-
-    @Bean(name = "workerGroup", destroyMethod = "shutdownGracefully")
-    public NioEventLoopGroup workerGroup() {
-        return new NioEventLoopGroup(workerCount);
-    }
-
+    
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"com.solvina.esf.server.model"});
+        em.setPackagesToScan(new String[]{"com.solvina.esf.data"});
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -174,7 +141,7 @@ public class ServerConfig {
 
     @Bean(name = "tcpSocketAddress")
     public InetSocketAddress tcpPort() {
-        return new InetSocketAddress(tcpPort);
+        return new InetSocketAddress(host,tcpPort);
     }
 
     private DataSource dataSource() {
@@ -198,4 +165,15 @@ public class ServerConfig {
         properties.setProperty("hibernate.format_sql", "true");
         return properties;
     }
+
+    @Bean(name = "bossGroup", destroyMethod = "shutdownGracefully")
+    public NioEventLoopGroup bossGroup() {
+        return new NioEventLoopGroup();
+    }
+
+    @Bean(name = "workerGroup", destroyMethod = "shutdownGracefully")
+    public NioEventLoopGroup workerGroup() {
+        return new NioEventLoopGroup();
+    }
+
 }

@@ -47,7 +47,7 @@ public class EsfServerImpl implements EsfServer{
 
      Message toStore = converter.toMessage(messageRequest);
      log.info("to store: {}",toStore);
-     Message ret = messageDAO.saveAndFlush(toStore);
+     Message ret = messageDAO.save(toStore);
      log.info(ret);
     }
 }

@@ -1,10 +1,13 @@
 package com.solvina.esf.web.config;
 
+import com.solvina.esf.client.config.ClientConfig;
+import com.solvina.esf.server.config.ServerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -19,7 +22,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = { "com.solvina.esf.web" })
-//@Import({ClientConfig.class})
+@Import({ClientConfig.class, ServerConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter{
     private static Logger log = LogManager.getLogger(WebConfig.class);
 

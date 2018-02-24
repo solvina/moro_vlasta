@@ -5,6 +5,7 @@ import com.solvina.esf.data.Message;
 import com.solvina.esf.data.MessageRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Collections;
 
 
 /**
@@ -26,13 +26,12 @@ import java.util.Collections;
 public class EntryController {
     private static Logger log = LogManager.getLogger(EntryController.class);
 
-//    @Autowired
+    @Autowired
     private EsfClient esfClient;
 
     @ModelAttribute("messages")
     Collection<MessageRequest> allMessages() {
-//        return esfClient.getRequests();
-        return Collections.EMPTY_LIST;
+        return esfClient.getRequests();
     }
 
 
@@ -49,6 +48,7 @@ public class EntryController {
     @RequestMapping(path = "/addMessage", method = RequestMethod.POST)
     public String addMessage(@Valid @ModelAttribute("message") Message message,
                              BindingResult bindingResult, ModelMap model) {
+        log.info("Received a message");
         if(bindingResult.hasErrors()){
             model.addAttribute("message",message);
             log.error("Incorrect message!");
@@ -60,7 +60,7 @@ public class EntryController {
         request.setCreated(message.getCreated());
         request.setPing(false);
 
-//        esfClient.sendMessage(request);
+        esfClient.sendMessage(request);
 
         return "redirect:/";
     }

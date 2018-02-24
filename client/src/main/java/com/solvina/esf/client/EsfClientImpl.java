@@ -1,8 +1,11 @@
 package com.solvina.esf.client;
 
+import com.solvina.esf.client.netty.ClientHandler;
 import com.solvina.esf.data.MessageRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,8 +25,13 @@ public class EsfClientImpl implements EsfClient {
 
     private final List<MessageRequest> messagesSent = new CopyOnWriteArrayList<>();
 
+    @Autowired
+    private ClientHandler clientHandler;
+
     @Override
+    @Scheduled(fixedDelay = 30000,initialDelay = 1000)
     public void ping() {
+        log.info("Sending ping");
         send(createPing());
     }
 
@@ -39,7 +47,7 @@ public class EsfClientImpl implements EsfClient {
     }
 
     private void send(MessageRequest messageRequest){
-        //todo send using netty
+        clientHandler.send(messageRequest);
     }
 
     private MessageRequest createPing(){

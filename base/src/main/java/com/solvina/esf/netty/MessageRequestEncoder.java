@@ -1,4 +1,4 @@
-package com.solvina.esf.netty;
+package com.solvina.esf.netty;                                                       //ctx not initialized yet. you were too fast. do something here
 
 import com.solvina.esf.data.MessageRequest;
 import com.solvina.esf.utils.Utils;
@@ -28,7 +28,7 @@ public class MessageRequestEncoder extends MessageToByteEncoder<MessageRequest> 
         out.writeCharSequence(request.getText(),Utils.charset);
 
         String date = Utils.dmf.format(request.getCreated());
-        System.out.println(date);
+
         out.writeInt(date.length());
         out.writeCharSequence(date,Utils.charset);
 
