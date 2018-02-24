@@ -15,7 +15,7 @@ public final class ExampleOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface ExampleOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Example)
+      // @@protoc_insertion_point(interface_extends:com.solvina.esf.proto.Example)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -42,11 +42,11 @@ public final class ExampleOuterClass {
         getNameBytes();
   }
   /**
-   * Protobuf type {@code Example}
+   * Protobuf type {@code com.solvina.esf.proto.Example}
    */
   public  static final class Example extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Example)
+      // @@protoc_insertion_point(message_implements:com.solvina.esf.proto.Example)
       ExampleOrBuilder {
   private static final long serialVersionUID = 0L;
     // Use Example.newBuilder() to construct.
@@ -111,12 +111,12 @@ public final class ExampleOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.solvina.esf.proto.ExampleOuterClass.internal_static_Example_descriptor;
+      return com.solvina.esf.proto.ExampleOuterClass.internal_static_com_solvina_esf_proto_Example_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.solvina.esf.proto.ExampleOuterClass.internal_static_Example_fieldAccessorTable
+      return com.solvina.esf.proto.ExampleOuterClass.internal_static_com_solvina_esf_proto_Example_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.solvina.esf.proto.ExampleOuterClass.Example.class, com.solvina.esf.proto.ExampleOuterClass.Example.Builder.class);
     }
@@ -359,20 +359,20 @@ public final class ExampleOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code Example}
+     * Protobuf type {@code com.solvina.esf.proto.Example}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Example)
+        // @@protoc_insertion_point(builder_implements:com.solvina.esf.proto.Example)
         com.solvina.esf.proto.ExampleOuterClass.ExampleOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.solvina.esf.proto.ExampleOuterClass.internal_static_Example_descriptor;
+        return com.solvina.esf.proto.ExampleOuterClass.internal_static_com_solvina_esf_proto_Example_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.solvina.esf.proto.ExampleOuterClass.internal_static_Example_fieldAccessorTable
+        return com.solvina.esf.proto.ExampleOuterClass.internal_static_com_solvina_esf_proto_Example_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.solvina.esf.proto.ExampleOuterClass.Example.class, com.solvina.esf.proto.ExampleOuterClass.Example.Builder.class);
       }
@@ -403,7 +403,7 @@ public final class ExampleOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.solvina.esf.proto.ExampleOuterClass.internal_static_Example_descriptor;
+        return com.solvina.esf.proto.ExampleOuterClass.internal_static_com_solvina_esf_proto_Example_descriptor;
       }
 
       public com.solvina.esf.proto.ExampleOuterClass.Example getDefaultInstanceForType() {
@@ -632,10 +632,10 @@ public final class ExampleOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Example)
+      // @@protoc_insertion_point(builder_scope:com.solvina.esf.proto.Example)
     }
 
-    // @@protoc_insertion_point(class_scope:Example)
+    // @@protoc_insertion_point(class_scope:com.solvina.esf.proto.Example)
     private static final com.solvina.esf.proto.ExampleOuterClass.Example DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new com.solvina.esf.proto.ExampleOuterClass.Example();
@@ -671,10 +671,10 @@ public final class ExampleOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Example_descriptor;
+    internal_static_com_solvina_esf_proto_Example_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Example_fieldAccessorTable;
+      internal_static_com_solvina_esf_proto_Example_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -684,8 +684,8 @@ public final class ExampleOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rExample.proto\"#\n\007Example\022\n\n\002id\030\001 \002(\005\022\014" +
-      "\n\004name\030\002 \002(\tB\027\n\025com.solvina.esf.proto"
+      "\n\rExample.proto\022\025com.solvina.esf.proto\"#" +
+      "\n\007Example\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -699,11 +699,11 @@ public final class ExampleOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_Example_descriptor =
+    internal_static_com_solvina_esf_proto_Example_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_Example_fieldAccessorTable = new
+    internal_static_com_solvina_esf_proto_Example_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Example_descriptor,
+        internal_static_com_solvina_esf_proto_Example_descriptor,
         new java.lang.String[] { "Id", "Name", });
   }
 
