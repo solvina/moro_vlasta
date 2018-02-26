@@ -9,6 +9,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.SelfSignedCertificate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,9 +26,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.net.ssl.SSLException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.net.InetSocketAddress;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -55,7 +60,6 @@ public class ServerConfig {
     private String host;
 
 
-
     @Value("${boss.thread.count:10}")
     private int bossCount;
 
@@ -76,12 +80,12 @@ public class ServerConfig {
     private String password;
 
     @Bean
-    public  ServerHandler serverHandler(){
+    public ServerHandler serverHandler() {
         return new ServerHandler();
     }
 
     @Bean(name = "serverBootstrap")
-            public ServerBootstrap serverBootstrap() {
+    public ServerBootstrap serverBootstrap() {
         // Configure the server.
 
         ServerBootstrap b = new ServerBootstrap();
@@ -97,7 +101,19 @@ public class ServerConfig {
     }
 
     @Bean
-    public ServerInitializer serverInitializer(){
+    SelfSignedCertificate ssc() throws CertificateException {
+        return new SelfSignedCertificate();
+    }
+
+    @Bean(name = "serverSSLCtx")
+    SslContext sslCtx() throws CertificateException, SSLException {
+        return SslContextBuilder.forServer(ssc().certificate(), ssc().privateKey())
+                .build();
+    }
+
+
+    @Bean
+    public ServerInitializer serverInitializer() {
         return new ServerInitializer();
     }
 
@@ -108,7 +124,7 @@ public class ServerConfig {
         options.put(ChannelOption.SO_BACKLOG, backlog);
         return options;
     }
-    
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();

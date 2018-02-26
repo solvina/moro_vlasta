@@ -7,9 +7,13 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.net.ssl.SSLException;
 import java.net.InetSocketAddress;
 
 
@@ -43,6 +48,7 @@ public class ClientConfig {
 
 
     @Value("${tcp.port:7878}")
+    @Qualifier("clientPort")
     private int tcpPort;
     @Value("${tcp.port:localhost}")
     private String host;
@@ -84,6 +90,14 @@ public class ClientConfig {
         return bootstrap;
 
     }
+
+    @Bean(name="clientSllCTX")
+
+    public SslContext sslCtx() throws SSLException {
+        return  SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+    }
+
+
     @Bean
     ClientInitializer clientInitializer(){
         return new ClientInitializer();

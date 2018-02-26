@@ -8,9 +8,11 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.ssl.SslContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 
@@ -25,9 +27,17 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Autowired
     private ServerHandler serverHandler;
+
+    @Autowired
+    @Qualifier("serverSSLCtx")
+    private SslContext sslCtx;
+    
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline p = ch.pipeline();
+
+        p.addLast(sslCtx.newHandler(ch.alloc()));
+
         p.addLast(new ProtobufVarint32FrameDecoder());
         p.addLast(new ProtobufDecoder(MessageProtocol.MessageRequest.getDefaultInstance()));
 
