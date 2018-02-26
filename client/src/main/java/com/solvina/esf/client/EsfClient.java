@@ -1,6 +1,6 @@
 package com.solvina.esf.client;
 
-import com.solvina.esf.data.MessageRequest;
+import com.solvina.esf.proto.MessageProtocol;
 
 import java.util.Collection;
 
@@ -20,11 +20,11 @@ public interface EsfClient {
      * Sends a message using netty to server
      * @param messageRequest
      */
-    void sendMessage(MessageRequest messageRequest);
+    void sendMessage(MessageProtocol.MessageRequest messageRequest);
 
     /**
      * Gets a collection of already send messages
      * @return
      */
-    Collection<MessageRequest> getRequests();
+    Collection<MessageProtocol.MessageRequest> getRequests();
 }

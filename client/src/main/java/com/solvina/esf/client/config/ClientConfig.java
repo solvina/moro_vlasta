@@ -76,13 +76,17 @@ public class ClientConfig {
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
-                .handler(new ClientInitializer());
+                .handler(clientInitializer());
 
 
         log.info("Created client");
 
         return bootstrap;
 
+    }
+    @Bean
+    ClientInitializer clientInitializer(){
+        return new ClientInitializer();
     }
 
     @Bean(name = "bossGroup", destroyMethod = "shutdownGracefully")

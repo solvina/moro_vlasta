@@ -1,9 +1,10 @@
 package com.solvina.esf.server;
 
-import com.solvina.esf.data.MessageRequest;
+import com.solvina.esf.data.Message;
+import com.solvina.esf.proto.MessageProtocol;
 import com.solvina.esf.server.config.ServerConfig;
 import com.solvina.esf.server.dao.MessageDAO;
-import com.solvina.esf.data.Message;
+import com.solvina.esf.utils.Utils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ class EsfServerTest {
     @Autowired
     MessageDAO messageDAO;
 
-    private static final LocalDateTime testStamp = LocalDateTime.of(2018,02,23,15,00);
+    private static final LocalDateTime testStamp = LocalDateTime.of(2018, 02, 23, 15, 00);
 
     @Test
     void testPing() {
         server.onPing(createMessageRequest("Ping message"));
 
-        assertEquals(server.latestPingSeen().get(),testStamp,"Stamps must match");
+        assertEquals(server.latestPingSeen().get(), testStamp, "Stamps must match");
     }
 
     @Test
@@ -47,15 +48,15 @@ class EsfServerTest {
 
         List<Message> messages = messageDAO.findAll();
 
-        assertEquals(1,messages.size(),"We expect exactly one message here");
-        assertEquals(testMsg,messages.get(0).getMessage(),"Messages must match");
+        assertEquals(1, messages.size(), "We expect exactly one message here");
+        assertEquals(testMsg, messages.get(0).getMessage(), "Messages must match");
     }
 
 
-    private MessageRequest createMessageRequest(String str){
-        MessageRequest msg = new MessageRequest();
-        msg.setCreated(testStamp);
-        msg.setText(str);
+    private MessageProtocol.MessageRequest createMessageRequest(String str) {
+        MessageProtocol.MessageRequest msg = MessageProtocol.MessageRequest.newBuilder()
+                .setCreated(Utils.toStamp(testStamp))
+                .setText(str).build();
 
         return msg;
     }

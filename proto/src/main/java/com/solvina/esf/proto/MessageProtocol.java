@@ -28,25 +28,25 @@ public final class MessageProtocol {
     long getCreated();
 
     /**
-     * <code>required string name = 2;</code>
+     * <code>required string text = 2;</code>
      */
-    boolean hasName();
+    boolean hasText();
     /**
-     * <code>required string name = 2;</code>
+     * <code>required string text = 2;</code>
      */
-    java.lang.String getName();
+    java.lang.String getText();
     /**
-     * <code>required string name = 2;</code>
+     * <code>required string text = 2;</code>
      */
     com.google.protobuf.ByteString
-        getNameBytes();
+        getTextBytes();
 
     /**
-     * <code>required bool isPing = 3;</code>
+     * <code>optional bool isPing = 3;</code>
      */
     boolean hasIsPing();
     /**
-     * <code>required bool isPing = 3;</code>
+     * <code>optional bool isPing = 3;</code>
      */
     boolean getIsPing();
   }
@@ -64,7 +64,7 @@ public final class MessageProtocol {
     }
     private MessageRequest() {
       created_ = 0L;
-      name_ = "";
+      text_ = "";
       isPing_ = false;
     }
 
@@ -104,7 +104,7 @@ public final class MessageProtocol {
             case 18: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              name_ = bs;
+              text_ = bs;
               break;
             }
             case 24: {
@@ -152,19 +152,19 @@ public final class MessageProtocol {
       return created_;
     }
 
-    public static final int NAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object name_;
+    public static final int TEXT_FIELD_NUMBER = 2;
+    private volatile java.lang.Object text_;
     /**
-     * <code>required string name = 2;</code>
+     * <code>required string text = 2;</code>
      */
-    public boolean hasName() {
+    public boolean hasText() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>required string text = 2;</code>
      */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
+    public java.lang.String getText() {
+      java.lang.Object ref = text_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -172,22 +172,22 @@ public final class MessageProtocol {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          name_ = s;
+          text_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>required string text = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
+        getTextBytes() {
+      java.lang.Object ref = text_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        name_ = b;
+        text_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -197,13 +197,13 @@ public final class MessageProtocol {
     public static final int ISPING_FIELD_NUMBER = 3;
     private boolean isPing_;
     /**
-     * <code>required bool isPing = 3;</code>
+     * <code>optional bool isPing = 3;</code>
      */
     public boolean hasIsPing() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required bool isPing = 3;</code>
+     * <code>optional bool isPing = 3;</code>
      */
     public boolean getIsPing() {
       return isPing_;
@@ -219,11 +219,7 @@ public final class MessageProtocol {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsPing()) {
+      if (!hasText()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -237,7 +233,7 @@ public final class MessageProtocol {
         output.writeInt64(1, created_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, text_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, isPing_);
@@ -255,7 +251,7 @@ public final class MessageProtocol {
           .computeInt64Size(1, created_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, text_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -282,10 +278,10 @@ public final class MessageProtocol {
         result = result && (getCreated()
             == other.getCreated());
       }
-      result = result && (hasName() == other.hasName());
-      if (hasName()) {
-        result = result && getName()
-            .equals(other.getName());
+      result = result && (hasText() == other.hasText());
+      if (hasText()) {
+        result = result && getText()
+            .equals(other.getText());
       }
       result = result && (hasIsPing() == other.hasIsPing());
       if (hasIsPing()) {
@@ -308,9 +304,9 @@ public final class MessageProtocol {
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getCreated());
       }
-      if (hasName()) {
-        hash = (37 * hash) + NAME_FIELD_NUMBER;
-        hash = (53 * hash) + getName().hashCode();
+      if (hasText()) {
+        hash = (37 * hash) + TEXT_FIELD_NUMBER;
+        hash = (53 * hash) + getText().hashCode();
       }
       if (hasIsPing()) {
         hash = (37 * hash) + ISPING_FIELD_NUMBER;
@@ -448,7 +444,7 @@ public final class MessageProtocol {
         super.clear();
         created_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        name_ = "";
+        text_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         isPing_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -483,7 +479,7 @@ public final class MessageProtocol {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.name_ = name_;
+        result.text_ = text_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -533,9 +529,9 @@ public final class MessageProtocol {
         if (other.hasCreated()) {
           setCreated(other.getCreated());
         }
-        if (other.hasName()) {
+        if (other.hasText()) {
           bitField0_ |= 0x00000002;
-          name_ = other.name_;
+          text_ = other.text_;
           onChanged();
         }
         if (other.hasIsPing()) {
@@ -550,10 +546,7 @@ public final class MessageProtocol {
         if (!hasCreated()) {
           return false;
         }
-        if (!hasName()) {
-          return false;
-        }
-        if (!hasIsPing()) {
+        if (!hasText()) {
           return false;
         }
         return true;
@@ -610,24 +603,24 @@ public final class MessageProtocol {
         return this;
       }
 
-      private java.lang.Object name_ = "";
+      private java.lang.Object text_ = "";
       /**
-       * <code>required string name = 2;</code>
+       * <code>required string text = 2;</code>
        */
-      public boolean hasName() {
+      public boolean hasText() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>required string text = 2;</code>
        */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
+      public java.lang.String getText() {
+        java.lang.Object ref = text_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
-            name_ = s;
+            text_ = s;
           }
           return s;
         } else {
@@ -635,72 +628,72 @@ public final class MessageProtocol {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>required string text = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
+          getTextBytes() {
+        java.lang.Object ref = text_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          name_ = b;
+          text_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>required string text = 2;</code>
        */
-      public Builder setName(
+      public Builder setText(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        name_ = value;
+        text_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>required string text = 2;</code>
        */
-      public Builder clearName() {
+      public Builder clearText() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        name_ = getDefaultInstance().getName();
+        text_ = getDefaultInstance().getText();
         onChanged();
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>required string text = 2;</code>
        */
-      public Builder setNameBytes(
+      public Builder setTextBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        name_ = value;
+        text_ = value;
         onChanged();
         return this;
       }
 
       private boolean isPing_ ;
       /**
-       * <code>required bool isPing = 3;</code>
+       * <code>optional bool isPing = 3;</code>
        */
       public boolean hasIsPing() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required bool isPing = 3;</code>
+       * <code>optional bool isPing = 3;</code>
        */
       public boolean getIsPing() {
         return isPing_;
       }
       /**
-       * <code>required bool isPing = 3;</code>
+       * <code>optional bool isPing = 3;</code>
        */
       public Builder setIsPing(boolean value) {
         bitField0_ |= 0x00000004;
@@ -709,7 +702,7 @@ public final class MessageProtocol {
         return this;
       }
       /**
-       * <code>required bool isPing = 3;</code>
+       * <code>optional bool isPing = 3;</code>
        */
       public Builder clearIsPing() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1349,7 +1342,7 @@ public final class MessageProtocol {
     java.lang.String[] descriptorData = {
       "\n\025MessageProtocol.proto\022\025com.solvina.esf" +
       ".proto\"?\n\016MessageRequest\022\017\n\007created\030\001 \002(" +
-      "\003\022\014\n\004name\030\002 \002(\t\022\016\n\006isPing\030\003 \002(\010\"\037\n\017Messa" +
+      "\003\022\014\n\004text\030\002 \002(\t\022\016\n\006isPing\030\003 \001(\010\"\037\n\017Messa" +
       "geResponse\022\014\n\004text\030\001 \002(\t"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
@@ -1369,7 +1362,7 @@ public final class MessageProtocol {
     internal_static_com_solvina_esf_proto_MessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_solvina_esf_proto_MessageRequest_descriptor,
-        new java.lang.String[] { "Created", "Name", "IsPing", });
+        new java.lang.String[] { "Created", "Text", "IsPing", });
     internal_static_com_solvina_esf_proto_MessageResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_solvina_esf_proto_MessageResponse_fieldAccessorTable = new

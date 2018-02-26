@@ -5,8 +5,8 @@ package com.solvina.esf.proto;
 
 message MessageRequest {
   required int64 created = 1;
-  required string name = 2;
-  required bool isPing = 3;
+  required string text = 2;
+  optional bool isPing = 3;
 }
 
 message MessageResponse {

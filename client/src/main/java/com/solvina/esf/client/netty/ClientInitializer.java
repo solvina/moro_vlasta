@@ -10,6 +10,8 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -17,8 +19,12 @@ import org.apache.logging.log4j.Logger;
  * Date: 2/26/18
  * Time: 10:27 AM
  */
+@Component
 public class ClientInitializer extends ChannelInitializer<SocketChannel> {
     private static Logger log = LogManager.getLogger(ClientInitializer.class);
+
+    @Autowired
+    private  ClientHandler clientHandler;
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
@@ -29,7 +35,7 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast(new ProtobufVarint32LengthFieldPrepender());
         p.addLast(new ProtobufEncoder());
 
-        p.addLast(new ClientHandler());
+        p.addLast(clientHandler);
 
     }
 }

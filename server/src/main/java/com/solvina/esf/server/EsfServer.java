@@ -1,6 +1,6 @@
 package com.solvina.esf.server;
 
-import com.solvina.esf.data.MessageRequest;
+import com.solvina.esf.proto.MessageProtocol;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -16,7 +16,7 @@ public interface EsfServer {
      * at the moment it only logs the ping
      * @param ping
      */
-    void onPing(MessageRequest ping);
+    void onPing(MessageProtocol.MessageRequest ping);
 
     /**
      * When we saw the last ping
@@ -28,5 +28,5 @@ public interface EsfServer {
      * Stores the message request to db
      * @param messageRequest
      */
-    void onMessage(MessageRequest messageRequest);
+    void onMessage(MessageProtocol.MessageRequest messageRequest);
 }

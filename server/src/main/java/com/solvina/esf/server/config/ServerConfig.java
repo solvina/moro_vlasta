@@ -90,12 +90,16 @@ public class ServerConfig {
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
-                .childHandler(new ServerInitializer());
+                .childHandler(serverInitializer());
 
         log.info("Server is created");
         return b;
     }
 
+    @Bean
+    public ServerInitializer serverInitializer(){
+        return new ServerInitializer();
+    }
 
     @Bean(name = "tcpChannelOptions")
     public Map<ChannelOption<?>, Object> tcpChannelOptions() {
@@ -128,7 +132,7 @@ public class ServerConfig {
 
     @Bean(name = "tcpServerAddress")
     public InetSocketAddress tcpPort() {
-        return new InetSocketAddress(host,tcpPort);
+        return new InetSocketAddress(tcpPort);
     }
 
     private DataSource dataSource() {

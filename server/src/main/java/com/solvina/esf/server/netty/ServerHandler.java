@@ -1,7 +1,6 @@
 package com.solvina.esf.server.netty;
 
-import com.solvina.esf.data.MessageRequest;
-import com.solvina.esf.data.MessageResponse;
+import com.solvina.esf.proto.MessageProtocol;
 import com.solvina.esf.server.EsfServer;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ChannelHandler.Sharable
-public class ServerHandler extends SimpleChannelInboundHandler<MessageRequest> {
+public class ServerHandler extends SimpleChannelInboundHandler<MessageProtocol.MessageRequest> {
     private static Logger log = LogManager.getLogger(ServerHandler.class);
 
     @Autowired
@@ -38,13 +37,18 @@ public class ServerHandler extends SimpleChannelInboundHandler<MessageRequest> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MessageRequest msg) throws Exception {
-        MessageResponse response = new MessageResponse();
-        response.setText("Received: " + msg.getText());
+    protected void channelRead0(ChannelHandlerContext ctx, MessageProtocol.MessageRequest msg) throws Exception {
+        log.info("We need process the message! {}", msg);
+        if(esfServer == null){
+           log.error("Server is null!");
+           return;
+       }
+
+        MessageProtocol.MessageResponse response = MessageProtocol.MessageResponse
+                .newBuilder().setText("Received: " + msg.getText()).build();
         ctx.write(response);
 
-        log.info("We need process the message! {}", msg);
-        if (msg.isPing())
+        if (msg.getIsPing())
             esfServer.onPing(msg);
         else
             esfServer.onMessage(msg);

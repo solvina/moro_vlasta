@@ -2,7 +2,8 @@ package com.solvina.esf.web.controller;
 
 import com.solvina.esf.client.EsfClient;
 import com.solvina.esf.data.Message;
-import com.solvina.esf.data.MessageRequest;
+import com.solvina.esf.proto.MessageProtocol;
+import com.solvina.esf.server.MessageConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,11 @@ public class EntryController {
 
     @Autowired
     private EsfClient esfClient;
+    @Autowired
+    private MessageConverter converter;
 
     @ModelAttribute("messages")
-    Collection<MessageRequest> allMessages() {
+    Collection<MessageProtocol.MessageRequest> allMessages() {
         return esfClient.getRequests();
     }
 
@@ -48,19 +51,14 @@ public class EntryController {
     @RequestMapping(path = "/addMessage", method = RequestMethod.POST)
     public String addMessage(@Valid @ModelAttribute("message") Message message,
                              BindingResult bindingResult, ModelMap model) {
-        log.info("Received a message");
+        log.info("Received a message: " + message.toString() );
         if(bindingResult.hasErrors()){
             model.addAttribute("message",message);
             log.error("Incorrect message!");
             return "index";
         }
 
-        MessageRequest request = new MessageRequest();
-        request.setText(message.getMessage());
-        request.setCreated(message.getCreated());
-        request.setPing(false);
-
-        esfClient.sendMessage(request);
+        esfClient.sendMessage(converter.toRequest(message));
 
         return "redirect:/";
     }

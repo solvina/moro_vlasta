@@ -1,7 +1,6 @@
 package com.solvina.esf.client.netty;
 
-import com.solvina.esf.data.MessageRequest;
-import com.solvina.esf.data.MessageResponse;
+import com.solvina.esf.proto.MessageProtocol;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -9,8 +8,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -20,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Component
 @ChannelHandler.Sharable
-public class ClientHandler extends SimpleChannelInboundHandler<MessageResponse> {
+public class ClientHandler extends SimpleChannelInboundHandler<MessageProtocol.MessageResponse> {
     private static Logger log = LogManager.getLogger(ClientHandler.class);
 
     ChannelHandlerContext ctx;
@@ -36,13 +33,13 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageResponse> 
         send(welcomeMessage());
     }
 
-    private MessageRequest welcomeMessage() {
+    private MessageProtocol.MessageRequest welcomeMessage() {
 
-        MessageRequest msg = new MessageRequest();
-        msg.setCreated(LocalDateTime.now());
-        msg.setText(
-                "starting message on active channel");
-        msg.setPing(false);
+        MessageProtocol.MessageRequest msg = MessageProtocol.MessageRequest.newBuilder()
+                .setCreated(System.currentTimeMillis())
+                .setText("starting message on active channel")
+                .setIsPing(false).build();
+
         return msg;
 
     }
@@ -52,7 +49,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageResponse> 
         log.info("Channel inactive {}", ctx.channel());
     }
 
-    public void send(MessageRequest request) {
+    public void send(MessageProtocol.MessageRequest request) {
         if (ctx != null)
         {
             ChannelFuture cf = ctx.write(request);
@@ -65,7 +62,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<MessageResponse> 
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MessageResponse msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, MessageProtocol.MessageResponse msg) throws Exception {
         log.info("Seen response: " + msg.getText());
 
     }

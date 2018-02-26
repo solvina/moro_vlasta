@@ -1,8 +1,9 @@
 package com.solvina.esf.server;
 
-import com.solvina.esf.data.MessageRequest;
+import com.solvina.esf.proto.MessageProtocol;
 import com.solvina.esf.server.dao.MessageDAO;
 import com.solvina.esf.data.Message;
+import com.solvina.esf.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,9 @@ public class EsfServerImpl implements EsfServer{
     private MessageConverter converter;
 
     @Override
-    public void onPing(MessageRequest ping) {
+    public void onPing(MessageProtocol.MessageRequest ping) {
         log.info("We just saw a ping message: {}",ping.toString());
-        latestPing = ping.getCreated();
+        latestPing = Utils.toLocalDateTime(ping.getCreated());
     }
 
     @Override
@@ -42,7 +43,7 @@ public class EsfServerImpl implements EsfServer{
     }
 
     @Override
-    public void onMessage(MessageRequest messageRequest) {
+    public void onMessage(MessageProtocol.MessageRequest messageRequest) {
      log.info("We have received a message!");
 
      Message toStore = converter.toMessage(messageRequest);
