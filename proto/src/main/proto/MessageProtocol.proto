@@ -1,0 +1,14 @@
+//syntax = "proto2";
+
+package com.solvina.esf.proto;
+
+
+message MessageRequest {
+  required int64 created = 1;
+  required string name = 2;
+  required bool isPing = 3;
+}
+
+message MessageResponse {
+  required string text = 1;
+}

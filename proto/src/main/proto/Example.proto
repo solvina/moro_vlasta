@@ -1,9 +1,0 @@
-syntax = "proto2";
-
-package com.solvina.esf.proto;
-
-
-message Example {
-  required int32 id = 1;
-  required string name = 2;
-}

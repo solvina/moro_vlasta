@@ -1,15 +1,11 @@
 package com.solvina.esf.server.config;
 
-import com.solvina.esf.netty.MessageRequestDecoder;
-import com.solvina.esf.netty.MessageResponseEncoder;
 import com.solvina.esf.server.netty.ServerHandler;
+import com.solvina.esf.server.netty.ServerInitializer;
 import com.zaxxer.hikari.HikariDataSource;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -94,16 +90,7 @@ public class ServerConfig {
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    public void initChannel(SocketChannel ch) throws Exception {
-                        ChannelPipeline p = ch.pipeline();
-                        p.addLast(new LoggingHandler(LogLevel.DEBUG));
-                        p.addLast(new MessageRequestDecoder(),
-                                new MessageResponseEncoder(),
-                                serverHandler());
-                    }
-                });
+                .childHandler(new ServerInitializer());
 
         log.info("Server is created");
         return b;
@@ -139,7 +126,7 @@ public class ServerConfig {
         return transactionManager;
     }
 
-    @Bean(name = "tcpSocketAddress")
+    @Bean(name = "tcpServerAddress")
     public InetSocketAddress tcpPort() {
         return new InetSocketAddress(host,tcpPort);
     }
